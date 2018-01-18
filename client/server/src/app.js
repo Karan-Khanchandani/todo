@@ -21,6 +21,34 @@ app.get('/posts', (req, res) => {
    
   })
 
+  app.get('/posts/:id', (req,res) => {
+    Post.findById(req.params.id, 'title description', function(error, post){
+      if(error){
+        console.log(error);
+      }
+      debugger
+      res.send(post);
+    } )
+  })
+
+  app.put('/posts/:id', (req, res) => {
+    Post.findById(req.params.id, 'title description', function(error, post){
+      if(error){
+        console.log(error);
+      }
+      post.title = req.body.title
+      post.description = req.body.description
+      post.save(function(error){
+        if(error){
+          console.log(error);
+        }
+        res.send({
+          success: true
+        })
+      })
+    })
+  })
+
   var mongoose = require('mongoose');
   mongoose.connect('mongodb://localhost:27017/posts');
   var db = mongoose.connection;
