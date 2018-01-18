@@ -80,4 +80,18 @@ app.post('/posts', (req, res) => {
   });
 })
 
+app.delete('/posts/:id', (req, res) => {
+  var db = req.db;
+  Post.remove({
+    _id: req.params.id
+  }, function(err, post){
+    debugger
+    if (err)
+      res.send(err)
+    res.send({
+      success: true
+    })
+  })
+})
+
 app.listen(process.env.PORT || 8081);
